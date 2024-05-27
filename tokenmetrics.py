@@ -82,7 +82,6 @@ def market_metrics():
             prediction_df = get_price_prediction(symbol)
             if prediction_df is not None:
                 st.line_chart(prediction_df.set_index("Day"), use_container_width=True)
-                st.write(prediction_df) # Agregamos un DataFrame para que el usuario pueda ver los datos
         else:
             st.warning("Please enter a valid symbol.")
 
