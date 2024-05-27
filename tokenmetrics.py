@@ -1,5 +1,4 @@
 import streamlit as st
-import matplotlib.pyplot as plt
 import pandas as pd
 import requests
 
@@ -14,16 +13,6 @@ def get_price_prediction(symbol):
         st.error("Error al obtener datos de predicción de precios. Por favor, inténtalo de nuevo más tarde.")
         return None
         
-def plot_price_prediction(data):
-    df = pd.DataFrame.from_dict(data, orient="index", columns=["Price Prediction"])
-    df.index = pd.to_datetime(df.index)
-    plt.figure(figsize=(10, 6))
-    plt.plot(df.index, df["Price Prediction"], marker="o")
-    plt.xlabel("Date")
-    plt.ylabel("Price Prediction")
-    plt.title("Price Prediction for the Next 7 Days")
-    plt.grid(True)
-    st.pyplot()
 # Define una función para cada página
 def home():
     st.title("Welcome to Crypto Reports App")
@@ -82,13 +71,14 @@ def token_reports():
 
 
 def market_metrics():
-    st.title("Market Metrics")
+    st.title("Price Prediction")
     symbol = st.text_input("Enter the symbol of the cryptocurrency (e.g., BTC):")
     if st.button("Get Prediction"):
         if symbol:
             prediction_data = get_price_prediction(symbol)
             if prediction_data:
-                plot_price_prediction(prediction_data)
+                df = pd.DataFrame.from_dict(prediction_data, orient="index", columns=["Price Prediction"])
+                st.line_chart(df.rename_axis("Date").reset_index())
         else:
             st.warning("Please enter a valid symbol.")
 
