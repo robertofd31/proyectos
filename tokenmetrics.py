@@ -1,5 +1,29 @@
 import streamlit as st
+import matplotlib.pyplot as plt
+import pandas as pd
+import requests
 
+def get_price_prediction(symbol):
+    url = f"https://api.tokenmetrics.com/v2/price-prediction?symbol={symbol}"
+    headers = {"accept": "application/json", "api_key": "tu_clave_de_api_aqui"}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        return data["data"][0]["FORECASTS_FOR_NEXT_7_DAYS"]
+    else:
+        st.error("Error al obtener datos de predicción de precios. Por favor, inténtalo de nuevo más tarde.")
+        return None
+        
+def plot_price_prediction(data):
+    df = pd.DataFrame.from_dict(data, orient="index", columns=["Price Prediction"])
+    df.index = pd.to_datetime(df.index)
+    plt.figure(figsize=(10, 6))
+    plt.plot(df.index, df["Price Prediction"], marker="o")
+    plt.xlabel("Date")
+    plt.ylabel("Price Prediction")
+    plt.title("Price Prediction for the Next 7 Days")
+    plt.grid(True)
+    st.pyplot()
 # Define una función para cada página
 def home():
     st.title("Welcome to Crypto Reports App")
@@ -8,8 +32,6 @@ def home():
 
 def token_reports():
     st.title("Token Reports")
-    import requests
-
     # URL del endpoint de informes de IA
     url = "https://api.tokenmetrics.com/v2/ai-reports"
     
@@ -61,7 +83,15 @@ def token_reports():
 
 def market_metrics():
     st.title("Market Metrics")
-    # Aquí puedes poner el código para la página de métricas de mercado
+    symbol = st.text_input("Enter the symbol of the cryptocurrency (e.g., BTC):")
+    if st.button("Get Prediction"):
+        if symbol:
+            prediction_data = get_price_prediction(symbol)
+            if prediction_data:
+                plot_price_prediction(prediction_data)
+        else:
+            st.warning("Please enter a valid symbol.")
+
 
 # Definir un diccionario que mapea nombres de página a funciones de página
 pages = {
