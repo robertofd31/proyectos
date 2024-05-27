@@ -81,13 +81,11 @@ def market_metrics():
         if symbol:
             prediction_df = get_price_prediction(symbol)
             if prediction_df is not None:
-                # Obtener el mínimo y el máximo del precio predicho
-                min_price = prediction_df["Price Prediction"].min() * 1.2
-                max_price = prediction_df["Price Prediction"].max() * 1.2
+                min_price = prediction_df["Price Prediction"].min()
+                max_price = prediction_df["Price Prediction"].max()
+                prediction_df["Price Prediction"] = (prediction_df["Price Prediction"] - min_price) / (max_price - min_price) * 1.2
                 # Tracer el gráfico con el rango ajustado en el eje y
-                chart = st.line_chart(prediction_df.set_index("Day"), y_axis_display_range=(min_price, max_price))
-                # Opcional: agregar etiquetas personalizadas al eje y
-                chart.set_axis_labels("Price Prediction", "Day")
+                st.line_chart(prediction_df.set_index("Day"))
         else:
             st.warning("Please enter a valid symbol.")
 
