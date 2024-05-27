@@ -22,17 +22,20 @@ if response.status_code == 200:
     data = response.json()
     
     tokens = [(report["TOKEN_NAME"], report["SYMBOL"]) for report in data["data"]]
+
+    # Dropdown to select the token
+    selected_token_index = st.selectbox("Select a token:", options=[token[0] for token in tokens])
     
-    # Desplegable para seleccionar el token
-    selected_token_index = st.selectbox("Selecciona un token:", options=range(len(tokens)))
+    # Find the index of the selected token
+    selected_index = [token[0] for token in tokens].index(selected_token_index)
     
-    # Mostrar el informe correspondiente al token seleccionado
-    selected_report = data["data"][selected_token_index]
-    st.write("Nombre del Token:", selected_report["TOKEN_NAME"])
-    st.write("Símbolo del Token:", selected_report["SYMBOL"])
-    st.write("Informe de Trader:")
+    # Show the report for the selected token
+    selected_report = data["data"][selected_index]
+    st.write("Token Name:", selected_report["TOKEN_NAME"])
+    st.write("Token Symbol:", selected_report["SYMBOL"])
+    st.write("Trader Report:")
     st.write(selected_report["TRADER_REPORT"])
-    st.write("Informe de Tecnología:")
+    st.write("Technology Report:")
     st.write(selected_report["TECHNOLOGY_REPORT"])
 else:
     st.error("Error al obtener los informes de IA. Código de estado:", response.status_code)
