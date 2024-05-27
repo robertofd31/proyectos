@@ -33,7 +33,6 @@ if response.status_code == 200:
     selected_report = data["data"][selected_index]
     st.write("Token Name:", selected_report["TOKEN_NAME"])
     st.write("Token Symbol:", selected_report["SYMBOL"])
-    st.write("Trader Report:")
     st.write(selected_report["TRADER_REPORT"])
     st.write("Technology Report:")
     st.write(selected_report["TECHNOLOGY_REPORT"])
