@@ -23,11 +23,20 @@ if response.status_code == 200:
     
     tokens = [(report["TOKEN_NAME"], report["SYMBOL"]) for report in data["data"]]
 
-    # Dropdown to select the token
-    selected_token_index = st.selectbox("Select a token:", options=[token[0] for token in tokens])
+    # Search box to filter tokens by name
+    search_term = st.text_input("Search token by name:")
     
-    # Find the index of the selected token
-    selected_index = [token[0] for token in tokens].index(selected_token_index)
+    # Filter tokens by search term
+    filtered_tokens = [token for token in tokens if search_term.lower() in token[0].lower()]
+    
+    # Dropdown to select the token
+    selected_token_index = st.selectbox("Select a token:", options=[token[0] for token in filtered_tokens] if filtered_tokens else [token[0] for token in tokens])
+    
+    if filtered_tokens:
+        # Find the index of the selected token
+        selected_index = [token[0] for token in filtered_tokens].index(selected_token_index)
+    else:
+        selected_index = [token[0] for token in tokens].index(selected_token_index)
     
     # Show the report for the selected token
     selected_report = data["data"][selected_index]
