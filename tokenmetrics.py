@@ -2,6 +2,26 @@ import streamlit as st
 import pandas as pd
 import requests
 
+# Definir el código HTML y CSS para el logotipo y el texto
+html_logo = """
+<div style="display: flex; align-items: center;">
+    <img src="https://assets-global.website-files.com/634054bf0f60201ce9b30604/6513c9b76a4808cda644b737_TM%20Logo_DM.svg" alt="TokenMetrics Logo" style="width: 100px; height: auto; margin-right: 20px;">
+    <h1 style="color: #ffcf30;">TokenMetrics.com</h1>
+</div>
+"""
+css_text = """
+h1 {
+    color: #000000;
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0;
+}
+"""
+
+# Aplicar el HTML y CSS en Streamlit
+st.markdown(html_logo, unsafe_allow_html=True)
+st.markdown(f'<style>{css_text}</style>', unsafe_allow_html=True)
+
 def get_price_prediction(symbol):
     url = f"https://api.tokenmetrics.com/v2/price-prediction?symbol={symbol}"
     headers = {"accept": "application/json", "api_key": "tu_clave_de_api_aqui"}
