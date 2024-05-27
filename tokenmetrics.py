@@ -8,7 +8,11 @@ def get_price_prediction(symbol):
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         data = response.json()
-        return data["data"][0]["FORECASTS_FOR_NEXT_7_DAYS"]
+        # Obtener las predicciones de los próximos 7 días
+        prediction_data = data["data"][0]["FORECASTS_FOR_NEXT_7_DAYS"]
+        # Crear un DataFrame a partir de las predicciones
+        df = pd.DataFrame(list(prediction_data.items()), columns=["Day", "Price Prediction"])
+        return df
     else:
         st.error("Error al obtener datos de predicción de precios. Por favor, inténtalo de nuevo más tarde.")
         return None
@@ -75,10 +79,9 @@ def market_metrics():
     symbol = st.text_input("Enter the symbol of the cryptocurrency (e.g., BTC):")
     if st.button("Get Prediction"):
         if symbol:
-            prediction_data = get_price_prediction(symbol)
-            if prediction_data:
-                df = pd.DataFrame.from_dict(prediction_data, orient="index", columns=["Price Prediction"])
-                st.line_chart(df.rename_axis("Date").reset_index())
+            prediction_df = get_price_prediction(symbol)
+            if prediction_df is not None:
+                st.line_chart(prediction_df.set_index("Day"))
         else:
             st.warning("Please enter a valid symbol.")
 
