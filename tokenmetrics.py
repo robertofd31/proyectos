@@ -2,6 +2,13 @@ import streamlit as st
 import pandas as pd
 import requests
 
+@st.cache
+def create_correlation_table(correlation_data):
+    tokens = [item['token'] for item in correlation_data]
+    correlations = [item['correlation'] for item in correlation_data]
+    df = pd.DataFrame({'Token': tokens, 'Correlation': correlations})
+    return df
+    
 # Definir el código HTML y CSS para el logotipo y el texto
 html_logo = """
 <div style="display: flex; align-items: center;">
@@ -140,6 +147,19 @@ def market_metrics():
                 st.line_chart(prediction_df.set_index("Day"), use_container_width=True)
         else:
             st.warning("Please enter a valid symbol.")
+
+def correlation():
+    st.title("Correlation Analysis")
+    symbol = st.text_input("Enter the symbol of the cryptocurrency (e.g., BTC)")
+    if st.button("Get Correlation"):
+        if symbol:
+            correlation_data = get_correlation_data(symbol)
+            if correlation_data:
+                st.write("Top 10 Correlations:")
+                correlation_table = create_correlation_table(correlation_data)
+                st.dataframe(correlation_table)
+            else:
+                st.error("Failed to load correlation data.")
 
 
 # Definir un diccionario que mapea nombres de página a funciones de página
