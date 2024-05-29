@@ -22,6 +22,28 @@ h1 {
 st.markdown(html_logo, unsafe_allow_html=True)
 st.markdown(f'<style>{css_text}</style>', unsafe_allow_html=True)
 
+def get_bull_and_bear_chart():
+    url = "https://api.tokenmetrics.com/v2/market-bull-and-bear-charts"
+    headers = {"accept": "application/json", "api_key": "tu_clave_de_api_aqui"}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        if data["success"]:
+            return data["chartUrl"]
+    return None
+
+# Función para obtener el gráfico de Market Cap
+def get_market_cap_chart():
+    url = "https://api.tokenmetrics.com/v2/total-market-crypto-cap-charts?timeFrame=MAX&chartFilters=total_market_cap%2Caltcoin_market_cap%2Cbtc_market_cap"
+    headers = {"accept": "application/json", "api_key": "tu_clave_de_api_aqui"}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        if data["success"]:
+            return data["chartUrl"]
+    return None
+
+
 def get_price_prediction(symbol):
     url = f"https://api.tokenmetrics.com/v2/price-prediction?symbol={symbol}"
     headers = {"accept": "application/json", "api_key": "tu_clave_de_api_aqui"}
@@ -39,9 +61,23 @@ def get_price_prediction(symbol):
         
 # Define una función para cada página
 def home():
-    st.title("Welcome to Crypto Reports App")
-    st.write("This is the homepage of our Crypto Reports App.")
-    st.write("Please select a page from the sidebar.")
+    st.title("Welcome to the Unofficial TokenMetrics Tool")
+    st.write("This tool provides insights and analysis for cryptocurrency trading and investment based on TokenMetrics data.")
+    
+    # Obtener y mostrar el gráfico Bull and Bear
+    bull_and_bear_chart_url = get_bull_and_bear_chart()
+    if bull_and_bear_chart_url:
+        st.image(bull_and_bear_chart_url, caption="Market Bull and Bear Chart")
+    else:
+        st.error("Failed to load Market Bull and Bear Chart.")
+    
+    # Obtener y mostrar el gráfico de Market Cap
+    market_cap_chart_url = get_market_cap_chart()
+    if market_cap_chart_url:
+        st.image(market_cap_chart_url, caption="Total Market Crypto Cap Chart")
+    else:
+        st.error("Failed to load Total Market Crypto Cap Chart.")
+
 
 def token_reports():
     st.title("Token Reports")
