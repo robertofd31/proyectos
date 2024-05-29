@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import requests
-
+from dune_client.client import DuneClient
 
 def get_correlation_data(symbol):
     url = f"https://api.tokenmetrics.com/v2/correlation?symbol={symbol}"
@@ -174,13 +174,28 @@ def correlation():
             else:
                 st.error("Failed to load correlation data.")
 
+# Función para mostrar la página de Dune Analytics
+def dune_analytics():
+    st.title("Dune Analytics Data")
+    dune_query_id = st.text_input("Enter the Dune Analytics Query ID (e.g., 3430945)")
+    if st.button("Get Dune Data"):
+        if dune_query_id:
+            try:
+                dune = DuneClient("shJoa2xJkUYVeL4jCHicDVejWtYQEEih")
+                query_result = dune.get_latest_result(dune_query_id)
+                data = query_result.result.rows
+                df = pd.DataFrame(data)
+                st.write(df)
+            except Exception as e:
+                st.error(f"Failed to load Dune Analytics data: {e}")
 
 # Definir un diccionario que mapea nombres de página a funciones de página
 pages = {
     "Home": home,
     "Token Reports": token_reports,
     "Market Metrics": market_metrics,
-    "Correlation": correlation
+    "Correlation": correlation,
+    "Dune Analytics": dune_analytics
 }
 
 # Barra lateral para la navegación entre páginas
