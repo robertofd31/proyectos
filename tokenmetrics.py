@@ -47,6 +47,17 @@ h1 {
     margin: 0;
 }
 """
+st.markdown(
+    """
+    <style>
+    /* Cambiar el color del título en modo oscuro */
+    .st-eb {
+        color: white !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # Aplicar el HTML y CSS en Streamlit
 st.markdown(html_logo, unsafe_allow_html=True)
