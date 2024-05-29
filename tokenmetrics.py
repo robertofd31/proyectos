@@ -11,7 +11,7 @@ def get_dune_data():
 # Función para crear el gráfico de barras
 def create_bar_chart(data):
     df = pd.DataFrame(data)
-    st.bar_chart(df.set_index('time'))
+    st.bar_chart(df.set_index('amount'))
     
 def get_correlation_data(symbol):
     url = f"https://api.tokenmetrics.com/v2/correlation?symbol={symbol}"
