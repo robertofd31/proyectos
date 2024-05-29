@@ -50,18 +50,26 @@ h1 {
 st.markdown(
     """
     <style>
-    /* Cambiar el color del título en modo oscuro */
-    .st-eb {
+    /* Cambiar el tema a oscuro */
+    body {
+        background-color: #1e1e1e !important;
         color: white !important;
+    }
+
+    /* Cambiar el color principal */
+    .st-d4 {
+        color: #f7dd19 !important;
+    }
+
+    /* Cambiar la fuente */
+    body {
+        font-family: monospace !important;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Aplicar el HTML y CSS en Streamlit
-st.markdown(html_logo, unsafe_allow_html=True)
-st.markdown(f'<style>{css_text}</style>', unsafe_allow_html=True)
 
 def get_bull_and_bear_chart():
     url = "https://api.tokenmetrics.com/v2/market-bull-and-bear-charts"
