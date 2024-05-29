@@ -187,7 +187,7 @@ def correlation():
 def dune_analytics():
     data = get_dune_data()
     if data:
-        st.write("### Amount vs Time")
+        st.write("### Bitcoin ETF flows (Dune Analytics)")
         create_line_chart(data)
     else:
         st.write("No data available")
