@@ -163,7 +163,6 @@ def correlation():
 
 
 # Definir un diccionario que mapea nombres de página a funciones de página
-pages = {"Home": home, "Price Prediction": price_prediction, "Correlation": correlation}
 pages = {
     "Home": home,
     "Token Reports": token_reports,
