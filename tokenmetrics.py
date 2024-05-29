@@ -10,7 +10,7 @@ def get_correlation_data(symbol):
     if response.status_code == 200:
         data = response.json()
         if data["success"]:
-            return data["data"][0]["TOP_CORRELATION"]
+            return data["data"][1]["TOP_CORRELATION"]
     return None
 
 # Función para crear una tabla de correlación
