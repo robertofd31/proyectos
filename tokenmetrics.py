@@ -4,7 +4,7 @@ import requests
 from dune_client.client import DuneClient
 
 def get_dune_data():
-    dune = DuneClient("your_api_key_here")
+    dune = DuneClient("shJoa2xJkUYVeL4jCHicDVejWtYQEEih")
     query_result = dune.get_latest_result(3430945)
     return query_result.result.rows
 
