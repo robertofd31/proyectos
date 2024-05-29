@@ -2,12 +2,25 @@ import streamlit as st
 import pandas as pd
 import requests
 
+
 @st.cache
 def create_correlation_table(correlation_data):
     tokens = [item['token'] for item in correlation_data]
     correlations = [item['correlation'] for item in correlation_data]
     df = pd.DataFrame({'Token': tokens, 'Correlation': correlations})
     return df
+
+@st.cache
+def get_correlation_data(symbol):
+    url = f"https://api.tokenmetrics.com/v2/correlation?symbol={symbol}"
+    headers = {"accept": "application/json", "api_key": "tu_clave_de_api_aqui"}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        if data["success"]:
+            return data["data"][0]["TOP_CORRELATION"]
+    return None
+
     
 # Definir el código HTML y CSS para el logotipo y el texto
 html_logo = """
