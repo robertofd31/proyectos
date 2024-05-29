@@ -36,7 +36,12 @@ h1 {
     margin: 0;
 }
 """
-
+data = get_dune_data()
+if data:
+    st.write("### Amount vs Time")
+    create_bar_chart(data)
+else:
+    st.write("No data available")
 # Aplicar el HTML y CSS en Streamlit
 st.markdown(html_logo, unsafe_allow_html=True)
 st.markdown(f'<style>{css_text}</style>', unsafe_allow_html=True)
@@ -147,8 +152,6 @@ def token_reports():
     else:
         st.error("Error al obtener los informes de IA. Código de estado:", response.status_code)
 
-
-
 def market_metrics():
     st.title("Price Prediction")
     symbol = st.text_input("Enter the symbol of the cryptocurrency (e.g., BTC):")
@@ -175,19 +178,14 @@ def correlation():
                 st.error("Failed to load correlation data.")
 
 # Función para mostrar la página de Dune Analytics
-def dune_analytics():
-    st.title("Dune Analytics Data")
-    dune_query_id = st.text_input("Enter the Dune Analytics Query ID (e.g., 3430945)")
-    if st.button("Get Dune Data"):
-        if dune_query_id:
-            try:
-                dune = DuneClient("shJoa2xJkUYVeL4jCHicDVejWtYQEEih")
-                query_result = dune.get_latest_result(dune_query_id)
-                data = query_result.result.rows
-                df = pd.DataFrame(data)
-                st.write(df)
-            except Exception as e:
-                st.error(f"Failed to load Dune Analytics data: {e}")
+def get_dune_data():
+    dune = DuneClient("your_api_key_here")
+    query_result = dune.get_latest_result(3430945)
+    return query_result.result.rows
+
+def create_bar_chart(data):
+    df = pd.DataFrame(data)
+    st.bar_chart(df.set_index('time'))
 
 # Definir un diccionario que mapea nombres de página a funciones de página
 pages = {
