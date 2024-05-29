@@ -8,10 +8,11 @@ def get_dune_data():
     query_result = dune.get_latest_result(3430945)
     return query_result.result.rows
 
-# Función para crear el gráfico de barras
-def create_bar_chart(data):
+def create_line_chart(data):
     df = pd.DataFrame(data)
-    st.bar_chart(df.set_index('amount'))
+    df['time'] = pd.to_datetime(df['time'])  # Convertir la columna 'time' a tipo datetime
+    df.set_index('time', inplace=True)  # Establecer 'time' como índice del DataFrame
+    st.line_chart(df['amount'])
     
 def get_correlation_data(symbol):
     url = f"https://api.tokenmetrics.com/v2/correlation?symbol={symbol}"
@@ -187,7 +188,7 @@ def dune_analytics():
     data = get_dune_data()
     if data:
         st.write("### Amount vs Time")
-        create_bar_chart(data)
+        create_line_chart(data)
     else:
         st.write("No data available")
 
