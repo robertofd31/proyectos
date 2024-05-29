@@ -3,6 +3,16 @@ import pandas as pd
 import requests
 from dune_client.client import DuneClient
 
+def get_dune_data():
+    dune = DuneClient("your_api_key_here")
+    query_result = dune.get_latest_result(3430945)
+    return query_result.result.rows
+
+# Función para crear el gráfico de barras
+def create_bar_chart(data):
+    df = pd.DataFrame(data)
+    st.bar_chart(df.set_index('time'))
+    
 def get_correlation_data(symbol):
     url = f"https://api.tokenmetrics.com/v2/correlation?symbol={symbol}"
     headers = {"accept": "application/json", "api_key": "tu_clave_de_api_aqui"}
@@ -36,12 +46,7 @@ h1 {
     margin: 0;
 }
 """
-data = get_dune_data()
-if data:
-    st.write("### Amount vs Time")
-    create_bar_chart(data)
-else:
-    st.write("No data available")
+
 # Aplicar el HTML y CSS en Streamlit
 st.markdown(html_logo, unsafe_allow_html=True)
 st.markdown(f'<style>{css_text}</style>', unsafe_allow_html=True)
@@ -177,15 +182,14 @@ def correlation():
             else:
                 st.error("Failed to load correlation data.")
 
-# Función para mostrar la página de Dune Analytics
-def get_dune_data():
-    dune = DuneClient("your_api_key_here")
-    query_result = dune.get_latest_result(3430945)
-    return query_result.result.rows
 
-def create_bar_chart(data):
-    df = pd.DataFrame(data)
-    st.bar_chart(df.set_index('time'))
+def dune_analytics():
+    data = get_dune_data()
+    if data:
+        st.write("### Amount vs Time")
+        create_bar_chart(data)
+    else:
+        st.write("No data available")
 
 # Definir un diccionario que mapea nombres de página a funciones de página
 pages = {
