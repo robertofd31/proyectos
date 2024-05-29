@@ -163,11 +163,8 @@ def correlation():
 
 
 # Definir un diccionario que mapea nombres de página a funciones de página
-pages = {
-    "Home": home,
-    "Token Reports": token_reports,
-    "Market Metrics": market_metrics
-}
+pages = {"Home": home, "Price Prediction": price_prediction, "Correlation": correlation}
+
 
 # Barra lateral para la navegación entre páginas
 page = st.sidebar.selectbox("Select a page", tuple(pages.keys()))
