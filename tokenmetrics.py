@@ -3,14 +3,6 @@ import pandas as pd
 import requests
 
 
-@st.cache
-def create_correlation_table(correlation_data):
-    tokens = [item['token'] for item in correlation_data]
-    correlations = [item['correlation'] for item in correlation_data]
-    df = pd.DataFrame({'Token': tokens, 'Correlation': correlations})
-    return df
-
-@st.cache
 def get_correlation_data(symbol):
     url = f"https://api.tokenmetrics.com/v2/correlation?symbol={symbol}"
     headers = {"accept": "application/json", "api_key": "tu_clave_de_api_aqui"}
@@ -20,6 +12,13 @@ def get_correlation_data(symbol):
         if data["success"]:
             return data["data"][0]["TOP_CORRELATION"]
     return None
+
+# Función para crear una tabla de correlación
+def create_correlation_table(correlation_data):
+    tokens = [item['token'] for item in correlation_data]
+    correlations = [item['correlation'] for item in correlation_data]
+    df = pd.DataFrame({'Token': tokens, 'Correlation': correlations})
+    return df
 
     
 # Definir el código HTML y CSS para el logotipo y el texto
@@ -161,6 +160,7 @@ def market_metrics():
         else:
             st.warning("Please enter a valid symbol.")
 
+# Función para mostrar la página de correlación
 def correlation():
     st.title("Correlation Analysis")
     symbol = st.text_input("Enter the symbol of the cryptocurrency (e.g., BTC)")
