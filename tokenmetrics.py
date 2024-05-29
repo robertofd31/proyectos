@@ -47,6 +47,15 @@ h1 {
     margin: 0;
 }
 """
+html_logo = """
+<div style="display: flex; align-items: center;">
+    <img src="https://assets-global.website-files.com/634054bf0f60201ce9b30604/6513c9b76a4808cda644b737_TM%20Logo_DM.svg" alt="TokenMetrics Logo" style="width: 100px; height: auto; margin-right: 20px;">
+    <h1 style="color: #ffcf30;">TokenMetrics.com</h1>
+</div>
+"""
+
+# Mostrar el logotipo y el texto
+st.markdown(html_logo, unsafe_allow_html=True)
 st.markdown(
     """
     <style>
