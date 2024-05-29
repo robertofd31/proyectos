@@ -64,19 +64,19 @@ def home():
     st.title("Welcome to the Unofficial TokenMetrics Tool")
     st.write("This tool provides insights and analysis for cryptocurrency trading and investment based on TokenMetrics data.")
     
-    # Obtener y mostrar el gráfico Bull and Bear
-    bull_and_bear_chart_url = get_bull_and_bear_chart()
-    if bull_and_bear_chart_url:
-        st.image(bull_and_bear_chart_url, caption="Market Bull and Bear Chart")
-    else:
-        st.error("Failed to load Market Bull and Bear Chart.")
-    
     # Obtener y mostrar el gráfico de Market Cap
     market_cap_chart_url = get_market_cap_chart()
     if market_cap_chart_url:
         st.image(market_cap_chart_url, caption="Total Market Crypto Cap Chart")
     else:
         st.error("Failed to load Total Market Crypto Cap Chart.")
+
+    # Obtener y mostrar el gráfico Bull and Bear
+    bull_and_bear_chart_url = get_bull_and_bear_chart()
+    if bull_and_bear_chart_url:
+        st.image(bull_and_bear_chart_url, caption="Market Bull and Bear Chart")
+    else:
+        st.error("Failed to load Market Bull and Bear Chart.")
 
 
 def token_reports():
